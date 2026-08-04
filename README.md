@@ -1,1 +1,0 @@
-# s_30383_Projekt_i_implementacja_chwytaka_robota_drukowanego_w_3D_dla_UR_Cobota
