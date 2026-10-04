@@ -29,4 +29,10 @@
 
 #include "contents/content.typ"
 
+#include "contents/implementation-gripper-code.typ"
+
+#include "contents/implementation-python-interface.typ"
+
+#include "contents/testing.typ"
+
 #include "contents/ai-report.typ"

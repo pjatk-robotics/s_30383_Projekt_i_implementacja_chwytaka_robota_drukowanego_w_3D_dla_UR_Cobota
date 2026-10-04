@@ -5,6 +5,8 @@ import time
 import sys
 
 BAUD = 9600
+MIN_WIDTH = 51.0
+MAX_WIDTH = 70.0
 PORT_HINTS = ["JDY", "SPP", "Bluetooth", "bluetooth"]
 
 running = True
@@ -31,10 +33,42 @@ def reader(ser):
             print(f"[BŁĄD ODCZYTU] {e}")
             break
 
+def validate_command(cmd):
+    parts = cmd.split()
+    if not parts:
+        return False
+
+    command = parts[0].upper()
+    if command == "WIDTH":
+        if len(parts) != 2:
+            print("Użycie: WIDTH <szerokość>, zakres: 51-70 mm")
+            return False
+    elif command == "GRAB":
+        if len(parts) == 1:
+            return True
+        if len(parts) != 2:
+            print("Użycie: GRAB [szerokość], zakres: 51-70 mm")
+            return False
+    else:
+        return True
+
+    try:
+        width = float(parts[1])
+    except ValueError:
+        print(f"Szerokość musi być liczbą z zakresu {MIN_WIDTH:g}-{MAX_WIDTH:g} mm.")
+        return False
+
+    if not MIN_WIDTH <= width <= MAX_WIDTH:
+        print(f"Szerokość musi być z zakresu {MIN_WIDTH:g}-{MAX_WIDTH:g} mm.")
+        return False
+
+    return True
+
 def main():
     global running
 
-    port = 'COM3'#find_port()
+    #port = 'COM3'
+    port = find_port()
     if not port:
         print("Nie znaleziono portu Bluetooth.")
         print("Dostępne porty:")
@@ -65,6 +99,8 @@ def main():
             if cmd.lower() == "exit":
                 ser.write("ZERO\n".encode())
                 break
+            if not validate_command(cmd):
+                continue
             ser.write((cmd + "\n").encode())
     except KeyboardInterrupt:
         pass
