@@ -1,14 +1,14 @@
 class CobotError(Exception):
-    pass
+    """Bazowy wyjątek biblioteki cobot."""
 
 
 class CobotConnectionError(CobotError):
-    pass
+    """Błąd połączenia lub komunikacji z robotem."""
 
 
 class CobotNotConnectedError(CobotError):
-    pass
+    """Próba użycia robota bez aktywnego połączenia."""
 
 
 class InvalidPoseError(CobotError):
-    pass
+    """Niepoprawna pozycja lub orientacja TCP."""
